@@ -1,0 +1,7 @@
+[package]
+name = "mat32"
+version = "0.1.0"
+authors = ["nathanfaucett <nathanfaucett@gmail.com>"]
+
+[dependencies.num]
+git = "https://github.com/nathanfaucett/rs-num.git"
