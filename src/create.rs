@@ -16,7 +16,7 @@ pub fn create<T: Num>(
     m11: T, m12: T, m13: T,
     m21: T, m22: T, m23: T,
     m31: T, m32: T, m33: T
-) -> [T; 9] {create(
+) -> [T; 9] {new(
     m11, m12, m13,
     m21, m22, m23,
     m31, m32, m33
