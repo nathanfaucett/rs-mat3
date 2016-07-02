@@ -53,7 +53,7 @@ pub fn new_zero<T: Num>() -> [T; 9] {
 }
 
 #[inline(always)]
-pub fn clone<T: Num>(m: [T; 9]) -> [T; 9] {
+pub fn clone<'b, T: Num>(m: &'b [T; 9]) -> [T; 9] {
     new(
         m[0], m[3], m[6],
         m[1], m[4], m[7],
@@ -62,7 +62,7 @@ pub fn clone<T: Num>(m: [T; 9]) -> [T; 9] {
 }
 
 #[inline(always)]
-pub fn copy<T: Num>(out: &mut [T; 9], a: [T; 9]) -> &mut [T; 9] {
+pub fn copy<'a, 'b, T: Num>(out: &'a mut [T; 9], a: &'b [T; 9]) -> &'a mut [T; 9] {
     out[0] = a[0];
     out[1] = a[1];
     out[2] = a[2];

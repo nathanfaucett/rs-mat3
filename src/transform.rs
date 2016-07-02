@@ -2,7 +2,7 @@ use num::Num;
 
 
 #[inline(always)]
-pub fn scale<T: Num>(out: &mut [T; 9], a: [T; 9], v: [T; 3]) -> &mut [T; 9] {
+pub fn scale<'a, 'b, T: Num>(out: &'a mut [T; 9], a: &'b [T; 9], v: &'b [T; 3]) -> &'a mut [T; 9] {
     let x = v[0];
     let y = v[1];
     let z = v[2];
@@ -20,7 +20,7 @@ pub fn scale<T: Num>(out: &mut [T; 9], a: [T; 9], v: [T; 3]) -> &mut [T; 9] {
 }
 
 #[inline(always)]
-pub fn from_quat<T: Num>(out: &mut [T; 9], q: [T; 4]) -> &mut [T; 9] {
+pub fn from_quat<'a, 'b, T: Num>(out: &'a mut [T; 9], q: &'b [T; 4]) -> &'a mut [T; 9] {
     let x = q[0];
     let y = q[1];
     let z = q[2];

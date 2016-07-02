@@ -2,12 +2,12 @@ use num::Num;
 
 
 #[inline(always)]
-pub fn set<T: Num>(
-    out: &mut [T; 9],
+pub fn set<'a, 'b, T: Num>(
+    out: &'a mut [T; 9],
     m11: T, m12: T, m13: T,
     m21: T, m22: T, m23: T,
     m31: T, m32: T, m33: T
-) -> &mut [T; 9] {
+) -> &'a mut [T; 9] {
     out[0] = m11;
     out[1] = m21;
     out[2] = m31;
@@ -21,7 +21,7 @@ pub fn set<T: Num>(
 }
 
 #[inline(always)]
-pub fn zero<T: Num>(out: &mut [T; 9]) -> &mut [T; 9] {
+pub fn zero<'a, 'b, T: Num>(out: &'a mut [T; 9]) -> &'a mut [T; 9] {
     set(out,
         T::zero(), T::zero(), T::zero(),
         T::zero(), T::zero(), T::zero(),
@@ -29,7 +29,7 @@ pub fn zero<T: Num>(out: &mut [T; 9]) -> &mut [T; 9] {
     )
 }
 #[inline(always)]
-pub fn identity<T: Num>(out: &mut [T; 9]) -> &mut [T; 9] {
+pub fn identity<'a, 'b, T: Num>(out: &'a mut [T; 9]) -> &'a mut [T; 9] {
     set(out,
         T::one(), T::zero(), T::zero(),
         T::zero(), T::one(), T::zero(),

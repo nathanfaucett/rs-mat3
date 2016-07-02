@@ -3,12 +3,12 @@ use set::identity;
 
 
 #[inline(always)]
-pub fn inverse_mat<T: Num>(
-    out: &mut [T; 9],
+pub fn inverse_mat<'a, 'b, T: Num>(
+    out: &'a mut [T; 9],
     m11: T, m12: T, m13: T,
     m21: T, m22: T, m23: T,
     m31: T, m32: T, m33: T
-) -> &mut [T; 9] {
+) -> &'a mut [T; 9] {
     let m0 = m22 * m33 - m23 * m32;
     let m3 = m13 * m32 - m12 * m33;
     let m6 = m12 * m23 - m13 * m22;
@@ -40,7 +40,7 @@ fn test_inverse_mat() {
     assert!(v == [1, 0, 0, 0, 1, 0, 0, 0, 1]);
 }
 
-pub fn inverse<T: Num>(out: &mut [T; 9], a: [T; 9]) -> &mut [T; 9] {
+pub fn inverse<'a, 'b, T: Num>(out: &'a mut [T; 9], a: &'b [T; 9]) -> &'a mut [T; 9] {
     inverse_mat(
         out,
         a[0], a[3], a[6],
@@ -48,7 +48,7 @@ pub fn inverse<T: Num>(out: &mut [T; 9], a: [T; 9]) -> &mut [T; 9] {
         a[2], a[5], a[8]
     )
 }
-pub fn inverse_mat2<T: Num>(out: &mut [T; 9], a: [T; 4]) -> &mut [T; 9] {
+pub fn inverse_mat2<'a, 'b, T: Num>(out: &'a mut [T; 9], a: &'b [T; 4]) -> &'a mut [T; 9] {
     inverse_mat(
         out,
         a[0], a[2], T::zero(),
@@ -56,7 +56,7 @@ pub fn inverse_mat2<T: Num>(out: &mut [T; 9], a: [T; 4]) -> &mut [T; 9] {
         T::zero(), T::zero(), T::one()
     )
 }
-pub fn inverse_mat32<T: Num>(out: &mut [T; 9], a: [T; 6]) -> &mut [T; 9] {
+pub fn inverse_mat32<'a, 'b, T: Num>(out: &'a mut [T; 9], a: &'b [T; 6]) -> &'a mut [T; 9] {
     inverse_mat(
         out,
         a[0], a[2], T::zero(),
@@ -64,7 +64,7 @@ pub fn inverse_mat32<T: Num>(out: &mut [T; 9], a: [T; 6]) -> &mut [T; 9] {
         T::zero(), T::zero(), T::one()
     )
 }
-pub fn inverse_mat4<T: Num>(out: &mut [T; 9], a: [T; 16]) -> &mut [T; 9] {
+pub fn inverse_mat4<'a, 'b, T: Num>(out: &'a mut [T; 9], a: &'b [T; 16]) -> &'a mut [T; 9] {
     inverse_mat(
         out,
         a[0], a[4], a[8],
@@ -74,7 +74,7 @@ pub fn inverse_mat4<T: Num>(out: &mut [T; 9], a: [T; 16]) -> &mut [T; 9] {
 }
 
 #[inline(always)]
-pub fn determinant<T: Num>(out: [T; 9]) -> T {
+pub fn determinant<'a, 'b, T: Num>(out: &'b [T; 9]) -> T {
     let a = out[0];
     let b = out[1];
     let c = out[2];
@@ -88,11 +88,11 @@ pub fn determinant<T: Num>(out: [T; 9]) -> T {
 }
 #[test]
 fn test_determinant() {
-    assert_eq!(determinant([1, 0, 0, 0, 1, 0, 0, 0, 1]), 1);
+    assert_eq!(determinant(&[1, 0, 0, 0, 1, 0, 0, 0, 1]), 1);
 }
 
 #[inline(always)]
-pub fn transpose<T: Num>(out: &mut [T; 9], a: [T; 9]) -> &mut [T; 9] {
+pub fn transpose<'a, 'b, T: Num>(out: &'a mut [T; 9], a: &'b [T; 9]) -> &'a mut [T; 9] {
     out[0] = a[0];
     out[1] = a[3];
     out[2] = a[6];
@@ -107,6 +107,6 @@ pub fn transpose<T: Num>(out: &mut [T; 9], a: [T; 9]) -> &mut [T; 9] {
 #[test]
 fn test_transpose() {
     let mut v = [1, 0, 0, 0, 1, 0, 0, 0, 1];
-    transpose(&mut v, [1, 0, 0, 0, 1, 0, 0, 0, 1]);
+    transpose(&mut v, &[1, 0, 0, 0, 1, 0, 0, 0, 1]);
     assert_eq!(v, [1, 0, 0, 0, 1, 0, 0, 0, 1]);
 }
