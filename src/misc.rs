@@ -1,4 +1,6 @@
 use num::Num;
+use approx::Approx;
+
 use set::identity;
 
 
@@ -109,4 +111,35 @@ fn test_transpose() {
     let mut v = [1, 0, 0, 0, 1, 0, 0, 0, 1];
     transpose(&mut v, &[1, 0, 0, 0, 1, 0, 0, 0, 1]);
     assert_eq!(v, [1, 0, 0, 0, 1, 0, 0, 0, 1]);
+}
+
+#[inline(always)]
+pub fn eq<'a, T: Num>(a: &'a [T; 9], b: &'a [T; 9]) -> bool {
+    !nq(a, b)
+}
+
+#[inline(always)]
+pub fn nq<'a, T: Num>(a: &'a [T; 9], b: &'a [T; 9]) -> bool {
+    !a[0].approx_eq(b[0]) ||
+    !a[1].approx_eq(b[1]) ||
+    !a[2].approx_eq(b[2]) ||
+    !a[3].approx_eq(b[3]) ||
+    !a[4].approx_eq(b[4]) ||
+    !a[5].approx_eq(b[5]) ||
+    !a[6].approx_eq(b[6]) ||
+    !a[7].approx_eq(b[7]) ||
+    !a[8].approx_eq(b[8])
+}
+#[test]
+fn test_nq() {
+    assert_eq!(nq(
+        &[1f32, 1f32, 1f32, 1f32, 1f32, 1f32, 1f32, 1f32, 1f32],
+        &[1f32, 1f32, 1f32, 1f32, 1f32, 1f32, 1f32, 1f32, 1f32]),
+        false
+    );
+    assert_eq!(nq(
+        &[0f32, 0f32, 0f32, 0f32, 0f32, 0f32, 0f32, 0f32, 0f32],
+        &[1f32, 1f32, 1f32, 1f32, 1f32, 1f32, 1f32, 1f32, 1f32]),
+        true
+    );
 }
