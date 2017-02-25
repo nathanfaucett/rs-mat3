@@ -1,9 +1,11 @@
-use num::{Signed, Unsigned};
+use approx_eq::ApproxEq;
+use num::Num;
+use signed::Signed;
 
 use set::identity;
 
 
-#[inline(always)]
+#[inline]
 pub fn inverse_mat<'a, 'b, T: Signed>(
     out: &'a mut [T; 9],
     m11: T, m12: T, m13: T,
@@ -74,8 +76,8 @@ pub fn inverse_mat4<'a, 'b, T: Signed>(out: &'a mut [T; 9], a: &'b [T; 16]) -> &
     )
 }
 
-#[inline(always)]
-pub fn determinant<'a, 'b, T: Unsigned>(out: &'b [T; 9]) -> T {
+#[inline]
+pub fn determinant<'a, 'b, T: Num>(out: &'b [T; 9]) -> T {
     let a = out[0];
     let b = out[1];
     let c = out[2];
@@ -92,8 +94,8 @@ fn test_determinant() {
     assert_eq!(determinant(&[1, 0, 0, 0, 1, 0, 0, 0, 1]), 1);
 }
 
-#[inline(always)]
-pub fn transpose<'a, 'b, T: Unsigned>(out: &'a mut [T; 9], a: &'b [T; 9]) -> &'a mut [T; 9] {
+#[inline]
+pub fn transpose<'a, 'b, T: Num>(out: &'a mut [T; 9], a: &'b [T; 9]) -> &'a mut [T; 9] {
     out[0] = a[0];
     out[1] = a[3];
     out[2] = a[6];
@@ -112,13 +114,13 @@ fn test_transpose() {
     assert_eq!(v, [1, 0, 0, 0, 1, 0, 0, 0, 1]);
 }
 
-#[inline(always)]
-pub fn eq<'a, T: Unsigned>(a: &'a [T; 9], b: &'a [T; 9]) -> bool {
+#[inline]
+pub fn eq<'a, T: Num + ApproxEq>(a: &'a [T; 9], b: &'a [T; 9]) -> bool {
     !ne(a, b)
 }
 
-#[inline(always)]
-pub fn ne<'a, T: Unsigned>(a: &'a [T; 9], b: &'a [T; 9]) -> bool {
+#[inline]
+pub fn ne<'a, T: Num + ApproxEq>(a: &'a [T; 9], b: &'a [T; 9]) -> bool {
     !a[0].approx_eq(b[0]) ||
     !a[1].approx_eq(b[1]) ||
     !a[2].approx_eq(b[2]) ||
